@@ -1,0 +1,26 @@
+html
+  head
+    title= title
+    link(rel='stylesheet', href='/app.css', type='text/css' )
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    
+  body
+    h1= message
+
+
+    ul(class='songs')
+      each val ,index in values
+        li(class='song' data-index=index data-song=val)=val
+
+div(class='player')
+  <audio class="audio-player" controls>
+    <source class="player-src" src="" type="audio/mpeg">
+  </audio>
+
+  div(class='controls')
+    input(type='button' class='previous' value="prev")
+    input(type='button' class='next' value="next")
+
+script( src='/app.js', type='text/javascript' )
+
+
