@@ -25,7 +25,8 @@ audio {
 }
 
 .previous,
-.next {
+.next,
+.random {
   width: 100px;
   height: 60px;
 }

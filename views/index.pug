@@ -18,8 +18,11 @@ div(class='player')
   </audio>
 
   div(class='controls')
-    input(type='button' class='previous' value="prev")
-    input(type='button' class='next' value="next")
+    div
+      input(type='button' class='previous' value="prev")
+      input(type='button' class='next' value="next")
+    div
+      input(type='button' class='random' value="turn on random")
 
 script( src='/app.js', type='text/javascript' )
 
