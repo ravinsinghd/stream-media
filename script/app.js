@@ -5,6 +5,7 @@ const prev = document.querySelector('.previous');
 const random = document.querySelector('.random');
 const allSongs = document.querySelectorAll('.song');
 const allSongsLength = allSongs.length;
+const socket = io();
 
 let songIndex = 0;
 let songName = '';
@@ -35,7 +36,7 @@ random.addEventListener('click', () => {
 })
 
 function prevSong() {
-  songIndex = Number(songIndex) - 1;
+  songIndex = getPreviousIndex();
   const nextEle = document.querySelector(`[data-index="${songIndex}"]`);
   songName = nextEle.getAttribute('data-song');
   updateSong();
@@ -49,10 +50,18 @@ function nextSong() {
 }
 
 function getNextIndex() {
-  if (random) {
+  if (isRandomEnabled) {
     return randomIntFromInterval(1, allSongsLength);
   } else {
     return Number(songIndex) + 1;
+  }
+}
+
+function getPreviousIndex() {
+  if (isRandomEnabled) {
+    return randomIntFromInterval(1, allSongsLength);
+  } else {
+    return Number(songIndex) - 1;
   }
 }
 
@@ -75,3 +84,12 @@ function enableRandom() {
 function randomIntFromInterval(min, max) {
   return Math.floor(Math.random() * (max - min + 1) + min);
 }
+
+
+socket.on('next', () => {
+  nextSong();
+});
+
+socket.on('prev', () => {
+  prevSong();
+});
