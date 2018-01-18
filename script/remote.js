@@ -1,6 +1,7 @@
 const next = document.querySelector('.next');
 const prev = document.querySelector('.previous');
 const random = document.querySelector('.random');
+const nowPlaying = document.querySelector('.now-playing');
 const socket = io();
 
 
@@ -15,4 +16,8 @@ prev.addEventListener('click', () => {
 
 random.addEventListener('click', () => {
   enableRandom();
+})
+
+socket.on('songChanged', (songName) => {
+  nowPlaying.innerText = songName;
 })

@@ -4,6 +4,7 @@ const next = document.querySelector('.next');
 const prev = document.querySelector('.previous');
 const random = document.querySelector('.random');
 const allSongs = document.querySelectorAll('.song');
+const nowPlaying = document.querySelector('.now-playing');
 const allSongsLength = allSongs.length;
 const socket = io();
 
@@ -66,9 +67,11 @@ function getPreviousIndex() {
 }
 
 function updateSong() {
+  nowPlaying.innerText = songName;
   source.src = `/${songName}`;
   player.load(); //call this to just preload the audio without playing
   player.play();
+  songChanged(songName);
 }
 
 function enableRandom() {
@@ -93,3 +96,7 @@ socket.on('next', () => {
 socket.on('prev', () => {
   prevSong();
 });
+
+function songChanged(songName) {
+  socket.emit('songChanged', songName);
+}

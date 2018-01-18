@@ -1,6 +1,7 @@
 const express = require('express')
 const app = express()
 const fs = require('fs');
+const read = require('fs-readdir-recursive')
 var http = require('http').Server(app);
 var io = require('socket.io')(http);
 
@@ -13,15 +14,16 @@ app.use(express.static('./script'));
 
 app.get('/', (req, res) => {
 
-  fs.readdir(testFolder, (err, files) => {
-    res.render('index', {
-      title: 'OPUS',
-      message: 'Welcome to the awesome player',
-      values: files
-    })
+  let files = read(testFolder);
+  files = files.filter(file => file.includes('mp3'));
+  res.render('index', {
+    title: 'OPUS',
+    message: 'Welcome to the awesome player',
+    values: files
   })
-
 })
+
+
 
 app.get('/remote', (req, res) => {
 
@@ -49,6 +51,10 @@ io.on('connection', (socket) => {
   socket.on('prev', () => {
     io.emit('prev');
   });
+
+  socket.on('songChanged', (songName) => {
+    io.emit('songChanged', songName);
+  })
 
 });
 
